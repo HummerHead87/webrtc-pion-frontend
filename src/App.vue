@@ -37,8 +37,8 @@
       </v-btn>
     </v-app-bar>
 
-    <cpu-usage />
     <v-content>
+      <cpu-usage />
       <!-- <ApolloExample/> -->
     </v-content>
   </v-app>
