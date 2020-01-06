@@ -37,24 +37,27 @@
       </v-btn>
     </v-app-bar>
 
+    <cpu-usage />
     <v-content>
-      <ApolloExample/>
+      <!-- <ApolloExample/> -->
     </v-content>
   </v-app>
 </template>
 
 <script>
-import ApolloExample from './components/ApolloExample'
+// import ApolloExample from './components/ApolloExample'
+import CpuUsage from '@/components/CpuUsage'
 
 export default {
   name: 'App',
 
   components: {
-    ApolloExample
+    // ApolloExample,
+    CpuUsage,
   },
 
   data: () => ({
     //
-  })
+  }),
 }
 </script>
