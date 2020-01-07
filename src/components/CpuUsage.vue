@@ -3,7 +3,7 @@
     <line-chart
       :chart-data="chartData"
       :options="chartOptions"
-      :height="400"
+      :height="250"
     />
   </div>
 </template>

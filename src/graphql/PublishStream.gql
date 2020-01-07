@@ -1,0 +1,3 @@
+mutation publishStream ($user: String!, $sdp: String!) {
+  publishStream (user: $user, sdp: $sdp)
+}
