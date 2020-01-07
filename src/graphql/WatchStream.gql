@@ -1,0 +1,3 @@
+mutation watchStream ($stream: String!, $user: String!, $sdp: String!) {
+  watchStream (stream: $stream, user: $user, sdp: $sdp)
+}

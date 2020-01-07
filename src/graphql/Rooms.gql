@@ -1,0 +1,3 @@
+query rooms {
+  rooms
+}

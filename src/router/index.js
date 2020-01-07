@@ -26,6 +26,15 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "stream" */ '../views/Stream.vue'),
   },
+  {
+    path: '/watch/:room',
+    name: 'watch',
+    props: true,
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "watch" */ '../views/Watch.vue'),
+  },
 ]
 
 const router = new VueRouter({

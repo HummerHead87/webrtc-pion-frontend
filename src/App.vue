@@ -45,6 +45,38 @@
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
+        <v-list-group
+          v-if="rooms.length"
+          v-model="showRooms"
+          :prepend-icon="showRooms ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+          append-icon=""
+        >
+          <template v-slot:activator>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title>
+                  Streams
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+          <v-list-item
+            v-for="(room, i) in rooms"
+            :key="i"
+            link
+            :to="{ name: 'watch', params: { room } }"
+          >
+            <v-list-item-action>
+              <v-icon>mdi-play</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>
+                {{ room }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
         <!-- <template v-for="item in items">
           <v-row
             v-if="item.heading"
@@ -166,6 +198,7 @@
 <script>
 // import ApolloExample from './components/ApolloExample'
 import CpuUsage from '@/components/CpuUsage'
+import ROOMS from '@/graphql/Rooms.gql'
 
 export default {
   name: 'App',
@@ -178,6 +211,8 @@ export default {
   data: () => ({
     dialog: false,
     drawer: null,
+    rooms: [],
+    showRooms: true,
     items: [
       { icon: 'mdi-contacts', text: 'Contacts' },
       { icon: 'mdi-history', text: 'Frequently contacted' },
@@ -211,5 +246,11 @@ export default {
       { icon: 'mdi-keyboard', text: 'Go to the old version' },
     ],
   }),
+
+  apollo: {
+    rooms: {
+      query: ROOMS,
+    },
+  },
 }
 </script>
