@@ -1,4 +1,6 @@
 fragment Message on Message {
   id
   text
+  user
+  createdAt
 }

@@ -12,7 +12,7 @@
       <v-col>
         <v-btn
           @click="onPublish"
-          :disabled="state === 'connected'"
+          :disabled="state === 'connected' || !name"
         >Publish</v-btn>
         <v-btn
           v-if="state === 'connected'"
@@ -38,6 +38,12 @@
           v-if="state === 'connected'"
           :room="name"
         />
+        <the-chat
+          v-if="state === 'connected'"
+          class="mt-4"
+          :room="name"
+          :user="name"
+        />
       </v-col>
     </v-row>
   </div>
@@ -47,16 +53,18 @@
 import PUBLISH_STREAM from '@/graphql/PublishStream.gql'
 
 import TheWatchers from '@/components/TheWatchers'
+import TheChat from '@/components/TheChat'
 
 export default {
   name: 'Stream',
 
   components: {
     TheWatchers,
+    TheChat,
   },
 
   data: () => ({
-    name: 'test',
+    name: '',
     localSDP: '',
     remoteSDP: '',
     pc: undefined,

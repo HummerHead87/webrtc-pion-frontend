@@ -1,0 +1,7 @@
+#import "./MessageFragment.gql"
+
+mutation postMessage ($room: String!, $user: String!, $text: String!) {
+  postMessage (room: $room, user: $user, text: $text) {
+    ...Message
+  }
+}

@@ -11,7 +11,7 @@
       </v-col>
       <v-btn
         class="ml-4"
-        :disabled="state === 'connected'"
+        :disabled="state === 'connected' || !name"
         @click="onWatch"
       >Watch</v-btn>
     </v-row>
@@ -28,6 +28,12 @@
       </v-col>
       <v-col cols="12" sm="6">
         <the-watchers :room="room" />
+        <the-chat
+          v-if="state === 'connected'"
+          class="mt-4"
+          :room="room"
+          :user="name"
+        />
       </v-col>
     </v-row>
   </div>
@@ -35,6 +41,7 @@
 
 <script>
 import TheWatchers from '@/components/TheWatchers'
+import TheChat from '@/components/TheChat'
 
 import WATCH_STREAM from '@/graphql/WatchStream.gql'
 
@@ -43,6 +50,7 @@ export default {
 
   components: {
     TheWatchers,
+    TheChat,
   },
 
   props: {
@@ -53,7 +61,7 @@ export default {
   },
 
   data: () => ({
-    name: 'name',
+    name: '',
     state: undefined,
     localSDP: undefined,
     remoteSDP: undefined,

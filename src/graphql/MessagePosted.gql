@@ -1,0 +1,7 @@
+#import "./MessageFragment.gql"
+
+subscription messagePosted ($room: String!) {
+  messagePosted (room: $room) {
+    ...Message
+  }
+}
