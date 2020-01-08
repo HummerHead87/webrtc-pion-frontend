@@ -33,18 +33,6 @@
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item
-          link
-        >
-          <v-list-item-action>
-            <v-icon>mdi-play</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>
-              Watch stream
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
 
         <v-list-group
           v-if="rooms.length"
@@ -154,23 +142,10 @@
       :clipped-left="$vuetify.breakpoint.lgAndUp"
     >
       <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
+        <v-toolbar-title class="headline text-uppercase">
+          <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+          <span>WebRTC</span>
+        </v-toolbar-title>
       </div>
 
       <v-spacer></v-spacer>
@@ -198,7 +173,10 @@
 <script>
 // import ApolloExample from './components/ApolloExample'
 import CpuUsage from '@/components/CpuUsage'
+
 import ROOMS from '@/graphql/Rooms.gql'
+import ROOM_ADDED from '@/graphql/RoomAdded.gql'
+import ROOM_DELETED from '@/graphql/RoomDeleted.gql'
 
 export default {
   name: 'App',
@@ -213,7 +191,7 @@ export default {
     drawer: null,
     rooms: [],
     showRooms: true,
-    items: [
+    /* items: [
       { icon: 'mdi-contacts', text: 'Contacts' },
       { icon: 'mdi-history', text: 'Frequently contacted' },
       { icon: 'mdi-content-copy', text: 'Duplicates' },
@@ -244,12 +222,26 @@ export default {
       { icon: 'mdi-help-circle', text: 'Help' },
       { icon: 'mdi-cellphone-link', text: 'App downloads' },
       { icon: 'mdi-keyboard', text: 'Go to the old version' },
-    ],
+    ], */
   }),
 
   apollo: {
     rooms: {
       query: ROOMS,
+    },
+    $subscribe: {
+      roomAdded: {
+        query: ROOM_ADDED,
+        result ({ data }) {
+          this.rooms.push(data.roomAdded)
+        },
+      },
+      roomDeleted: {
+        query: ROOM_DELETED,
+        result ({ data }) {
+          this.rooms = this.rooms.filter(name => name !== data.roomDeleted)
+        },
+      },
     },
   },
 }

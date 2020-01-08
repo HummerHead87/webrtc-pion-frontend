@@ -14,7 +14,7 @@
       </v-col>
       <v-col cols="6">
         <v-row align="center">
-          <v-col>
+          <v-col >
             <v-text-field
               v-model="name"
               label="Your name"
@@ -24,6 +24,7 @@
           <v-col>
             <v-btn
               @click="onWatch"
+              :disabled="state === 'connected'"
             >Watch</v-btn>
           </v-col>
         </v-row>
@@ -51,47 +52,59 @@ export default {
     remoteSDP: undefined,
   }),
 
+  watch: {
+    room () {
+      this.$refs.video.srcObject = undefined
+      this.state = undefined
+      this.initPC()
+    },
+  },
+
   mounted () {
-    this.pc = new RTCPeerConnection({
-      iceServers: [
-        {
-          urls: process.env.VUE_APP_STUN_SERVER,
-        },
-      ],
-    })
-
-    this.pc.oniceconnectionstatechange = e => {
-      // log(pc.iceConnectionState)
-      this.state = this.pc.iceConnectionState
-      console.log(this.pc.iceConnectionState)
-    }
-
-    this.pc.onicecandidate = event => {
-      if (event.candidate === null) {
-        this.localSDP = this.pc.localDescription.sdp
-        // document.getElementById('localSDP').value = pc.localDescription.sdp;
-        // <!-- document.getElementById('localSDP').value = pc.localDescription.sdp; -->
-        // sock.send(pc.localDescription.sdp);
-        // <!-- console.log("send sdp to server:==============\n" + pc.localDescription.sdp); -->
-      }
-    }
-
-    this.pc.addTransceiver('audio', { 'direction': 'recvonly' })
-    this.pc.addTransceiver('video', { 'direction': 'recvonly' })
-
-    this.pc.createOffer()
-      .then(d => this.pc.setLocalDescription(d))
-      .catch(this.log)
-
-    this.pc.ontrack = (event) => {
-      var el = this.$refs.video
-      el.srcObject = event.streams[0]
-      el.autoplay = true
-      el.controls = true
-    }
+    this.initPC()
   },
 
   methods: {
+    initPC () {
+      this.pc = new RTCPeerConnection({
+        iceServers: [
+          {
+            urls: process.env.VUE_APP_STUN_SERVER,
+          },
+        ],
+      })
+
+      this.pc.oniceconnectionstatechange = e => {
+        // log(pc.iceConnectionState)
+        this.state = this.pc.iceConnectionState
+        console.log(this.pc.iceConnectionState)
+      }
+
+      this.pc.onicecandidate = event => {
+        if (event.candidate === null) {
+          this.localSDP = this.pc.localDescription.sdp
+          // document.getElementById('localSDP').value = pc.localDescription.sdp;
+          // <!-- document.getElementById('localSDP').value = pc.localDescription.sdp; -->
+          // sock.send(pc.localDescription.sdp);
+          // <!-- console.log("send sdp to server:==============\n" + pc.localDescription.sdp); -->
+        }
+      }
+
+      this.pc.addTransceiver('audio', { 'direction': 'recvonly' })
+      this.pc.addTransceiver('video', { 'direction': 'recvonly' })
+
+      this.pc.createOffer()
+        .then(d => this.pc.setLocalDescription(d))
+        .catch(this.log)
+
+      this.pc.ontrack = (event) => {
+        const el = this.$refs.video
+        el.srcObject = event.streams[0]
+        el.autoplay = true
+        el.controls = true
+      }
+    },
+
     log () {
       debugger
       console.log(...arguments)
