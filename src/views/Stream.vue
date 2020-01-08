@@ -23,7 +23,7 @@
     </v-row>
 
     <v-row>
-      <v-col cols="6">
+      <v-col cols="12" sm="6">
         <video
           class="stream__video"
           autoplay
@@ -33,6 +33,12 @@
         >
         </video>
       </v-col>
+      <v-col cols="12" sm="6">
+        <the-watchers
+          v-if="state === 'connected'"
+          :room="name"
+        />
+      </v-col>
     </v-row>
   </div>
 </template>
@@ -40,8 +46,14 @@
 <script>
 import PUBLISH_STREAM from '@/graphql/PublishStream.gql'
 
+import TheWatchers from '@/components/TheWatchers'
+
 export default {
   name: 'Stream',
+
+  components: {
+    TheWatchers,
+  },
 
   data: () => ({
     name: 'test',
@@ -118,7 +130,6 @@ export default {
     },
 
     log () {
-      debugger
       console.log(...arguments)
     },
   },

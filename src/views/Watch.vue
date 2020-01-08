@@ -1,8 +1,22 @@
 <template>
   <div class="watch">
-    <h1>Watch page</h1>
+    <h1>Watch stream</h1>
+    <v-row no-gutters align="center">
+      <v-col md="6" lg="4">
+        <v-text-field
+          v-model="name"
+          label="Your name"
+          :disabled="state === 'connected'"
+        />
+      </v-col>
+      <v-btn
+        class="ml-4"
+        :disabled="state === 'connected'"
+        @click="onWatch"
+      >Watch</v-btn>
+    </v-row>
     <v-row>
-      <v-col cols="6">
+      <v-col cols="12" sm="6">
         <video
           class="watch__video"
           autoplay
@@ -12,32 +26,25 @@
         >
         </video>
       </v-col>
-      <v-col cols="6">
-        <v-row align="center">
-          <v-col >
-            <v-text-field
-              v-model="name"
-              label="Your name"
-              :disabled="state === 'connected'"
-            />
-          </v-col>
-          <v-col>
-            <v-btn
-              @click="onWatch"
-              :disabled="state === 'connected'"
-            >Watch</v-btn>
-          </v-col>
-        </v-row>
+      <v-col cols="12" sm="6">
+        <the-watchers :room="room" />
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
+import TheWatchers from '@/components/TheWatchers'
+
 import WATCH_STREAM from '@/graphql/WatchStream.gql'
 
 export default {
   name: 'Watch',
+
+  components: {
+    TheWatchers,
+  },
+
   props: {
     room: {
       type: String,

@@ -1,0 +1,3 @@
+subscription watcherJoined ($room: String!) {
+  watcherJoined (room: $room)
+}

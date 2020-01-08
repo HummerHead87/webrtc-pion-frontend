@@ -1,0 +1,3 @@
+subscription watcherDisconnected ($room: String!) {
+  watcherDisconnected (room: $room)
+}
