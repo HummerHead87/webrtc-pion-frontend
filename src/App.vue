@@ -65,6 +65,20 @@
             </v-list-item-content>
           </v-list-item>
         </v-list-group>
+
+        <v-list-item
+          link
+          :to="{ name: 'server-usage' }"
+        >
+          <v-list-item-action>
+            <v-icon>mdi-chart-areaspline-variant</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>
+              Server usage
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <!-- <template v-for="item in items">
           <v-row
             v-if="item.heading"
@@ -162,7 +176,6 @@
 
     <v-content>
       <v-container>
-        <cpu-usage />
         <!-- <ApolloExample/> -->
         <router-view />
       </v-container>
@@ -172,7 +185,6 @@
 
 <script>
 // import ApolloExample from './components/ApolloExample'
-import CpuUsage from '@/components/CpuUsage'
 
 import ROOMS from '@/graphql/Rooms.gql'
 import ROOM_ADDED from '@/graphql/RoomAdded.gql'
@@ -183,7 +195,6 @@ export default {
 
   components: {
     // ApolloExample,
-    CpuUsage,
   },
 
   data: () => ({

@@ -1,0 +1,10 @@
+subscription serverLoad {
+  serverLoad {
+    cpu
+    ram {
+      total
+      used
+      usedPercent
+    }
+  }
+}

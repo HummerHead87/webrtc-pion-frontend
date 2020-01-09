@@ -15,7 +15,7 @@ function getRandomColor () {
   return shades['300']
 }
 
-function getColor (name, shade = '300') {
+export function getColor (name, shade = '300') {
   return palette.palette[name][shade]
 }
 
